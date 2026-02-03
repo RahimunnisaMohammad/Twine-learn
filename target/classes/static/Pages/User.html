@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Users - TwineLearn</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Manage Users</h2>
+    <button onclick="getAllUsers()">Get All Users</button>
+    <ul id="userList"></ul>
+    <hr/>
+
+    <h3>Approve Mentor</h3>
+    <input id="approveId" placeholder="User ID to approve as Mentor" />
+    <button onclick="approveMentor()">Approve</button>
+    <p id="approveResult"></p>
+    <hr/>
+
+    <h3>Delete User</h3>
+    <input id="deleteId" placeholder="User ID to delete" />
+    <button onclick="deleteUser()">Delete User</button>
+    <p id="deleteResult"></p>
+    <a href="login.html">Back to Login</a>
+  </div>
+
+  <script>
+    const userApi = "http://localhost:8080/api/users";
+
+    async function getAllUsers() {
+      const res = await fetch(userApi);
+      const users = await res.json();
+      userList.innerHTML = "";
+      users.forEach(u => {
+        const li = document.createElement("li");
+        li.textContent = `ID: ${u.id} | ${u.name} (${u.email}) | Role: ${u.role}`;
+        userList.appendChild(li);
+      });
+    }
+
+    async function approveMentor() {
+      const data = { userId: approveId.value };
+      const res = await fetch(`${userApi}/approve`, {
+        method: "PUT",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(data)
+      });
+      approveResult.textContent = await res.text();
+    }
+
+    async function deleteUser() {
+      const id = deleteId.value;
+      const res = await fetch(`${userApi}/${id}`, { method: "DELETE" });
+      deleteResult.textContent = await res.text();
+    }
+  </script>
+</body>
+</html>

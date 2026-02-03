@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Results - TwineLearn</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Manage Results</h2>
+    <input id="studentId" placeholder="Student ID" />
+    <input id="quizId" placeholder="Quiz ID" />
+    <input id="score" placeholder="Score" type="number" />
+    <button onclick="submitResult()">Submit Result</button>
+    <p id="result"></p>
+    <hr/>
+    <button onclick="getAllResults()">Get All Results</button>
+    <ul id="resultList"></ul>
+    <input id="deleteId" placeholder="Result ID to delete" />
+    <button onclick="deleteResult()">Delete Result</button>
+    <br>
+    <a href="login.html">Back to Login</a>
+  </div>
+
+  <script>
+    const resultApi = "http://localhost:8080/api/results";
+
+    async function submitResult() {
+      const data = {
+        studentId: studentId.value,
+        quizId: quizId.value,
+        score: parseInt(score.value)
+      };
+      try {
+        const res = await fetch(resultApi + "/submit", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(data)
+        });
+        result.textContent = await res.text();
+      } catch (err) {
+        result.textContent = "Error: " + err.message;
+      }
+    }
+
+    async function getAllResults() {
+      try {
+        const res = await fetch(resultApi);
+        const results = await res.json();
+        resultList.innerHTML = "";
+        results.forEach(r => {
+          const li = document.createElement("li");
+          li.textContent = `ID: ${r.id} | Student: ${r.studentId} | Quiz: ${r.quizId} | Score: ${r.score}`;
+          resultList.appendChild(li);
+        });
+      } catch (err) {
+        result.textContent = "Error: " + err.message;
+      }
+    }
+
+    async function deleteResult() {
+      const id = deleteId.value;
+      try {
+        const res = await fetch(`${resultApi}/${id}`, { method: "DELETE" });
+        result.textContent = await res.text();
+      } catch (err) {
+        result.textContent = "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>

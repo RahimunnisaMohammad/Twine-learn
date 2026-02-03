@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Twine Learn | Login</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Vanilla Tilt -->
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.3/dist/vanilla-tilt.min.js" defer></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      overflow: hidden;
+      color: white;
+    }
+
+    .planet {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff6ec4, #7873f5);
+      filter: blur(180px);
+      z-index: 0;
+      animation: float 10s ease-in-out infinite;
+    }
+
+    .planet:nth-child(1) { top: -100px; left: -100px; }
+    .planet:nth-child(2) { bottom: -120px; right: -120px; background: radial-gradient(circle, #42e695, #3bb2b8); animation-delay: 5s; }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(30px); }
+    }
+
+    .tech-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .tech-bg i {
+      position: absolute;
+      font-size: 3.5rem;
+      opacity: 0.06;
+      color: #fff;
+      animation: spin 40s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(25px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .fade-in-up {
+      animation: fadeUp 1.5s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Eye animation */
+    .eye-open {
+      animation: eyeOpen 0.3s ease-in-out;
+    }
+
+    .eye-close {
+      animation: eyeClose 0.3s ease-in-out;
+    }
+
+    @keyframes eyeOpen {
+      0% { transform: scale(0.8); opacity: 0.2; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes eyeClose {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.6); opacity: 0.5; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .glow-ring {
+      animation: glow 1.2s ease-in-out;
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 0px rgba(255, 255, 255, 0); }
+      50% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
+      100% { box-shadow: 0 0 0px rgba(255, 255, 255, 0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background blobs -->
+  <div class="planet"></div>
+  <div class="planet"></div>
+
+  <!-- Tech icon background layer -->
+  <div class="tech-bg">
+    <i class="fab fa-html5" style="top:10%; left:6%;"></i>
+    <i class="fab fa-css3-alt" style="top:25%; right:8%; animation-duration:55s;"></i>
+    <i class="fab fa-js" style="bottom:18%; left:10%; animation-duration:48s;"></i>
+    <i class="fab fa-react" style="top:48%; left:45%; font-size:4rem; animation-duration:60s;"></i>
+    <i class="fab fa-python" style="bottom:22%; right:14%; animation-duration:52s;"></i>
+    <i class="fab fa-node-js" style="top:35%; right:38%; animation-duration:46s;"></i>
+    <i class="fab fa-git-alt" style="bottom:6%; left:44%; animation-duration:50s;"></i>
+    <i class="fab fa-github" style="top:6%; right:26%; animation-duration:58s;"></i>
+  </div>
+
+  <!-- Main content -->
+  <main class="min-h-screen flex items-center justify-center relative z-10">
+    <div class="glass w-[90%] max-w-md p-10 rounded-3xl fade-in-up"
+         data-tilt data-tilt-max="20" data-tilt-speed="1000" data-tilt-perspective="900">
+
+      <div class="text-center mb-6">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+             class="w-20 h-20 mx-auto rounded-full border-4 border-white/60 shadow-xl" />
+        <h1 class="text-4xl font-extrabold mt-4 bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 text-transparent bg-clip-text">Twine Learn</h1>
+        <p class="text-sm text-gray-200">One place. Mentor & Student. Connected.</p>
+      </div>
+
+      <form id="loginForm" class="space-y-5">
+        <div>
+          <label class="block text-sm mb-1">Email Address</label>
+          <input type="email" id="email" placeholder="you@example.com"
+                 class="w-full p-3 rounded-xl bg-white/10 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-pink-500" required />
+          <p id="emailWarning" class="text-red-400 text-xs mt-1 hidden">Email is required.</p>
+        </div>
+
+        <div class="relative">
+          <label class="block text-sm mb-1">Password</label>
+          <input id="password" type="password" placeholder="••••••••"
+                 class="w-full p-3 pr-12 rounded-xl bg-white/10 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-pink-500" required />
+          <button type="button" id="togglePw"
+                  class="absolute top-9 right-4 text-white/70 hover:text-white">
+            <i class="fa-regular fa-eye-slash" id="eyeIcon"></i>
+          </button>
+          <p id="passwordWarning" class="text-red-400 text-xs mt-1 hidden">Password is required.</p>
+          <div class="text-right mt-1">
+            <a href="UpdatePassword.html" class="text-xs text-pink-200 hover:underline hover:text-pink-300 transition">Forgot Password?</a>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm mb-1">Role</label>
+          <select id="roleSelect"
+                  class="w-full p-3 rounded-xl bg-pink-100 text-pink-800 border border-white/30 focus:outline-none focus:ring-2 focus:ring-pink-300" required>
+            <option value="">Select your role</option>
+            <option value="student">🎓 Student</option>
+            <option value="mentor">🧑‍🏫 Mentor</option>
+          </select>
+        </div>
+
+        <button type="submit"
+                class="w-full py-3 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-600 rounded-xl font-semibold shadow-md hover:scale-[1.02] transition-transform">
+                Login to Twine Learn 🚀
+        </button>
+
+        <div class="flex items-center gap-2 my-4">
+          <hr class="flex-grow border-white/20">
+          <span class="text-xs text-white/50">or</span>
+          <hr class="flex-grow border-white/20">
+        </div>
+      </form>
+
+      <p class="text-center text-sm mt-6 text-gray-300">
+        Don’t have an account?
+        <a href="Register.html" class="text-pink-300 hover:underline">Register Now</a>
+      </p>
+    </div>
+  </main>
+
+  <script>
+    const toggleBtn = document.getElementById('togglePw');
+    const pwInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    toggleBtn.onclick = () => {
+      const isPassword = pwInput.type === 'password';
+      pwInput.type = isPassword ? 'text' : 'password';
+
+      eyeIcon.classList.remove('eye-open', 'eye-close');
+      pwInput.classList.remove('glow-ring');
+
+      setTimeout(() => {
+        eyeIcon.classList.add(isPassword ? 'eye-open' : 'eye-close');
+        pwInput.classList.add('glow-ring');
+      }, 50);
+
+      eyeIcon.classList.toggle('fa-eye-slash', !isPassword);
+      eyeIcon.classList.toggle('fa-eye', isPassword);
+    };
+
+    const loginForm = document.getElementById("loginForm");
+    const emailField = document.getElementById("email");
+    const passwordField = document.getElementById("password");
+    const roleSelect = document.getElementById("roleSelect");
+    const emailWarning = document.getElementById("emailWarning");
+    const passwordWarning = document.getElementById("passwordWarning");
+
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      let valid = true;
+      emailWarning.classList.add("hidden");
+      passwordWarning.classList.add("hidden");
+
+      if (emailField.value.trim() === "") {
+        emailWarning.classList.remove("hidden");
+        valid = false;
+      }
+      if (passwordField.value.trim() === "") {
+        passwordWarning.classList.remove("hidden");
+        valid = false;
+      }
+
+      if (valid) {
+        const role = roleSelect.value;
+        if (role === "mentor") {
+          window.location.href = "User.html";
+        } else if (role === "student") {
+          window.location.href = "User.html";
+        } else {
+          alert("Please select a role.");
+        }
+      }
+    });
+  </script>
+</body>
+</html>

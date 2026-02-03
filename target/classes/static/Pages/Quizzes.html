@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quizzes - TwineLearn</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Manage Quizzes</h2>
+    <input id="title" placeholder="Quiz Title" />
+    <input id="createdBy" placeholder="Creator (Mentor ID)" />
+    <textarea id="questions" placeholder="Enter questions separated by semicolon"></textarea>
+    <button onclick="addQuiz()">Add Quiz</button>
+    <p id="result"></p>
+    <hr/>
+    <button onclick="getAllQuizzes()">Get All Quizzes</button>
+    <ul id="quizList"></ul>
+    <input id="deleteId" placeholder="Quiz ID to delete" />
+    <button onclick="deleteQuiz()">Delete Quiz</button>
+    <br>
+    <a href="login.html">Back to Login</a>
+  </div>
+
+  <script>
+    const quizApi = "http://localhost:8080/api/quizzes";
+
+    async function addQuiz() {
+      const questionsArray = questions.value.split(";").map(q => q.trim()).filter(q => q);
+      const data = {
+        title: title.value,
+        createdBy: createdBy.value,
+        questions: questionsArray
+      };
+      try {
+        const res = await fetch(`${quizApi}/create`, {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify(data)
+        });
+        result.textContent = await res.text();
+      } catch (err) {
+        result.textContent = "Error: " + err.message;
+      }
+    }
+
+    async function getAllQuizzes() {
+      try {
+        const res = await fetch(quizApi);
+        const quizzes = await res.json();
+        quizList.innerHTML = "";
+        quizzes.forEach(q => {
+          const li = document.createElement("li");
+          li.textContent = `ID: ${q.id} | Title: ${q.title} | Creator: ${q.createdBy} | Questions: ${q.questions.join(", ")}`;
+          quizList.appendChild(li);
+        });
+      } catch (err) {
+        result.textContent = "Error: " + err.message;
+      }
+    }
+
+    async function deleteQuiz() {
+      const id = deleteId.value;
+      try {
+        const res = await fetch(`${quizApi}/${id}`, { method: "DELETE" });
+        result.textContent = await res.text();
+      } catch (err) {
+        result.textContent = "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+//Register.html
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Twine Learn | Register</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.3/dist/vanilla-tilt.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .planet {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff9a9e, #fad0c4);
+      filter: blur(180px);
+      z-index: 0;
+      animation: float 10s ease-in-out infinite;
+    }
+    .planet:nth-child(1) { top: -100px; left: -100px; }
+    .planet:nth-child(2) { bottom: -120px; right: -120px; background: radial-gradient(circle, #a1c4fd, #c2e9fb); animation-delay: 5s; }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(30px); }
+    }
+    .glass {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(25px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .fade-in-up {
+      animation: fadeUp 1.5s ease forwards;
+    }
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background Planets -->
+<div class="planet"></div>
+<div class="planet"></div>
+
+<!-- Main Register Form -->
+<main class="min-h-screen flex items-center justify-center relative z-10">
+  <div class="glass w-[95%] max-w-4xl p-10 rounded-3xl fade-in-up"
+       data-tilt data-tilt-max="20" data-tilt-speed="1000" data-tilt-perspective="900">
+
+    <div class="text-center mb-6">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135789.png"
+           class="w-20 h-20 mx-auto rounded-full border-4 border-white/60 shadow-xl" />
+      <h1 class="text-4xl font-extrabold mt-4 bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 text-transparent bg-clip-text">
+        Register on TwineLearn
+      </h1>
+      <p class="text-sm text-gray-200">Join us as a Mentor or Student</p>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label class="block mb-1 text-sm">Full Name</label>
+        <input id="name" placeholder="John Doe"
+               class="w-full p-3 rounded-xl bg-white/10 border border-white/30 text-white placeholder-white/60 focus:ring-2 focus:ring-yellow-400" />
+      </div>
+
+      <div>
+        <label class="block mb-1 text-sm">Email</label>
+        <input id="email" placeholder="you@example.com"
+               class="w-full p-3 rounded-xl bg-white/10 border border-white/30 text-white placeholder-white/60 focus:ring-2 focus:ring-yellow-400" />
+      </div>
+
+      <div>
+        <label class="block mb-1 text-sm">Password</label>
+        <input id="password" type="password" placeholder="••••••••"
+               class="w-full p-3 rounded-xl bg-white/10 border border-white/30 text-white placeholder-white/60 focus:ring-2 focus:ring-yellow-400" />
+      </div>
+
+      <div>
+        <label class="block mb-1 text-sm">Role</label>
+        <select id="role"
+                class="w-full p-3 rounded-xl bg-yellow-100 text-yellow-800 border border-white/30 focus:ring-2 focus:ring-yellow-300">
+          <option value="STUDENT">🎓 Student</option>
+          <option value="MENTOR">🧑‍🏫 Mentor</option>
+        </select>
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="block mb-1 text-sm">Resume URL (Optional)</label>
+        <input id="resumeUrl" placeholder="https://your-resume-link.com"
+               class="w-full p-3 rounded-xl bg-white/10 border border-white/30 text-white placeholder-white/60 focus:ring-2 focus:ring-yellow-400" />
+      </div>
+    </div>
+
+    <!-- Register Button -->
+    <button onclick="register()"
+            class="mt-8 w-full py-3 bg-gradient-to-r from-yellow-400 via-pink-400 to-rose-500 rounded-xl font-semibold shadow-md hover:scale-[1.02] transition-transform">
+      <i class="fa-solid fa-user-plus mr-2"></i> 
+      <a href="login.html">Register Now 🚀</a>
+    </button>
+
+    <!-- Result Message -->
+    <p id="result" class="text-center mt-4 text-sm text-pink-300"></p>
+
+    <p class="text-center text-sm mt-6 text-gray-300">
+      Already registered?
+      <a href="login.html" class="text-yellow-300 hover:underline">Login</a>
+    </p>
+  </div>
+</main>
+
+<script>
+  async function register() {
+    const data = {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+      role: role.value,
+      resumeUrl: resumeUrl.value
+    };
+    try {
+      const res = await fetch("http://localhost:8080/api/users/register", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error("Server error " + res.status);
+      result.textContent = await res.text();
+    } catch (error) {
+      result.textContent = "Error: " + error.message;
+    }
+  }
+</script>
+
+</body>
+</html>

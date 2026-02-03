@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard | Twine Learn</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+    }
+
+    .section-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .section-card:hover {
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+<body class="min-h-screen px-6 py-10">
+
+  <header class="mb-10 text-center">
+    <h1 class="text-4xl font-bold text-yellow-300">Welcome to Twine Learn, Student! 🎓</h1>
+    <p class="text-lg text-gray-200 mt-2">Access your resources below</p>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+
+    <!-- Courses -->
+    <a href="courses.html" class="section-card block text-center hover:cursor-pointer">
+      <h2 class="text-2xl font-semibold mb-2 text-pink-300"><i class="fa-solid fa-book mr-2"></i>Your Courses</h2>
+      <p class="text-gray-200 text-sm">View enrolled and available courses</p>
+    </a>
+
+    <!-- Quizzes -->
+    <a href="quizzes.html" class="section-card block text-center hover:cursor-pointer">
+      <h2 class="text-2xl font-semibold mb-2 text-green-300"><i class="fa-solid fa-clipboard-question mr-2"></i>Quizzes</h2>
+      <p class="text-gray-200 text-sm">Take quizzes to test your skills</p>
+    </a>
+
+    <!-- Results -->
+    <a href="results.html" class="section-card block text-center hover:cursor-pointer">
+      <h2 class="text-2xl font-semibold mb-2 text-blue-300"><i class="fa-solid fa-chart-line mr-2"></i>Results</h2>
+      <p class="text-gray-200 text-sm">View your quiz and course results</p>
+    </a>
+
+    <!-- Feedback -->
+    <a href="feedback.html" class="section-card block text-center hover:cursor-pointer">
+      <h2 class="text-2xl font-semibold mb-2 text-purple-300"><i class="fa-solid fa-comments mr-2"></i>Feedback</h2>
+      <p class="text-gray-200 text-sm">Share your experience with us</p>
+    </a>
+
+  </div>
+
+</body>
+</html>

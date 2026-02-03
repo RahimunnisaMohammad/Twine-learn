@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TwineLearn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .main-nav {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 60px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 2;
+      position: relative;
+    }
+
+    .logo {
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: linear-gradient(to right, #3b3b98, #00c9ff, #92fe9d);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      margin: auto;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .right-section {
+      display: none;
+    }
+
+    .login, .join-btn {
+      font-size: 1.1rem;
+      padding: 14px 30px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+
+    .login {
+      background: transparent;
+      color: #ffb0ff;
+      border: 2px solid #ffb0ff;
+    }
+
+    .login:hover {
+      background-color: #ffb0ff;
+      color: #2c5364;
+    }
+
+    .join-btn {
+      background: linear-gradient(to right, #ff6ec4, #7873f5);
+      color: white;
+    }
+
+    .join-btn:hover {
+      background: linear-gradient(to right, #e65aa0, #6a63df);
+    }
+
+    .welcome-section {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+      padding: 80px 40px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      margin: 40px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 2;
+    }
+
+    .welcome-text {
+      flex: 1 1 400px;
+      max-width: 600px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .welcome-text h1 {
+      font-size: 3rem;
+      background: linear-gradient(to right, #3b3b98, #00c9ff, #92fe9d);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    .welcome-text p {
+      font-size: 1.2rem;
+      color: #ddd;
+      margin-top: 15px;
+      margin-bottom: 30px;
+    }
+
+    .auth-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .welcome-image {
+      flex: 1 1 400px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .welcome-image img {
+      max-width: 90%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .main-nav {
+        padding: 20px;
+      }
+
+      .auth-buttons {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .welcome-text h1 {
+        font-size: 2.2rem;
+      }
+    }
+
+    /* Background Blobs with Blinking Effect */
+    .blob {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(180px);
+      z-index: 0;
+      opacity: 0.6;
+      animation: blink 6s ease-in-out infinite;
+    }
+
+    .blob.pink {
+      background: radial-gradient(circle, #ff6ec4, #7873f5);
+      top: -120px;
+      left: -120px;
+      animation-delay: 0s;
+    }
+
+    .blob.green {
+      background: radial-gradient(circle, #42e695, #3bb2b8);
+      bottom: -150px;
+      right: -150px;
+      animation-delay: 3s;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      25% { opacity: 0.8; transform: scale(1.05); }
+      50% { opacity: 0.6; transform: scale(1.1); }
+      75% { opacity: 0.85; transform: scale(1.03); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Blinking Background Blobs -->
+  <div class="blob pink"></div>
+  <div class="blob green"></div>
+
+  <!-- NAVIGATION BAR -->
+  <div class="main-nav">
+    <div class="logo">TwineLearn</div>
+  </div>
+
+  <!-- WELCOME SECTION -->
+  <section class="welcome-section">
+    <div class="welcome-text">
+      <h1>Welcome to TwineLearn</h1>
+      <p>Smart. Creative. Personalized Learning, Your Way.</p>
+
+      <div class="auth-buttons">
+        <a href="LogIn.html" class="login">Log In</a>
+        <a href="register.html" class="join-btn">Register</a>
+      </div>
+    </div>
+    <div class="welcome-image">
+      <img src="https://plus.unsplash.com/premium_photo-1733342678263-f53160dcd9e1?q=80&w=1254&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+           alt="Learning illustration">
+    </div>
+  </section>
+
+</body>
+</html>

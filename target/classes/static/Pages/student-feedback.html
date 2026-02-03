@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Feedback - Twine Learn</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      overflow: hidden;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <main class="min-h-screen flex items-center justify-center p-4">
+    <div class="glass w-full max-w-md p-8 rounded-3xl">
+      <h2 class="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 text-transparent bg-clip-text">Submit Feedback</h2>
+      <form id="feedbackForm" class="space-y-4">
+        <div>
+          <label class="block text-sm">Video ID</label>
+          <input type="text" id="videoId" class="w-full px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/70 border border-white/30 focus:outline-none" placeholder="Enter Video ID" required />
+        </div>
+        <div>
+          <label class="block text-sm">Student ID</label>
+          <input type="text" id="studentId" class="w-full px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/70 border border-white/30 focus:outline-none" placeholder="Enter Student ID" required />
+        </div>
+        <div>
+          <label class="block text-sm">Comment</label>
+          <textarea id="comment" rows="4" class="w-full px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/70 border border-white/30 focus:outline-none" placeholder="Write your feedback here..." required></textarea>
+        </div>
+        <div>
+          <label class="block text-sm">Rating</label>
+          <input type="number" id="rating" min="1" max="5" class="w-full px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/70 border border-white/30 focus:outline-none" placeholder="1 to 5" required />
+        </div>
+        <button type="submit" class="w-full py-3 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-600 rounded-xl font-semibold hover:scale-105 transition-transform">
+          Submit Feedback
+        </button>
+      </form>
+      <p class="text-center text-sm mt-6 text-gray-300">
+        Go back to <a href="login.html" class="text-pink-300 hover:underline">Login</a>
+      </p>
+    </div>
+  </main>
+  <script>
+    document.getElementById("feedbackForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const body = {
+        videoId: document.getElementById("videoId").value,
+        studentId: document.getElementById("studentId").value,
+        comment: document.getElementById("comment").value,
+        rating: parseInt(document.getElementById("rating").value)
+      };
+
+      const res = await fetch("http://localhost:8080/api/student/feedbacks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+
+      if (res.ok) {
+        alert("Feedback submitted successfully!");
+        document.getElementById("feedbackForm").reset();
+      } else {
+        alert("Failed to submit feedback.");
+      }
+    });
+  </script>
+</body>
+</html>

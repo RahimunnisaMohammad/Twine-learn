@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Videos - TwineLearn</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Manage Videos</h2>
+
+    <input id="mentorId" placeholder="Mentor ID" />
+    <input id="title" placeholder="Video Title" />
+    <input id="description" placeholder="Description" />
+    <input id="subject" placeholder="Subject" />
+    <input id="videoUrl" placeholder="Video URL" />
+    <button onclick="addVideo()">Add Video</button>
+
+    <hr/>
+
+    <button onclick="getAllVideos()">Get All Videos</button>
+    <input id="deleteId" placeholder="Video ID to delete" />
+    <button onclick="deleteVideo()">Delete Video</button>
+
+    <ul id="videoList"></ul>
+    <p id="result"></p>
+    <a href="login.html">Back to Login</a>
+  </div>
+
+  <script>
+  const videoApi = "http://localhost:8080/api/videos/upload";
+
+    async function addVideo() {
+      const data = {
+        mentorId: mentorId.value,
+        title: title.value,
+        description: description.value,
+        subject: subject.value,
+        videoUrl: videoUrl.value
+      };
+      try {
+        const res = await fetch(videoApi, {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) {
+          throw new Error("Server error " + res.status);
+        }
+        result.textContent = await res.text();
+      } catch (err) {
+        result.textContent = "Error: " + err.message;
+      }
+    }
+
+    async function getAllVideos() {
+      try {
+        const res = await fetch(videoApi);
+        if (!res.ok) {
+          throw new Error("Server error " + res.status);
+        }
+        const videos = await res.json();
+        videoList.innerHTML = "";
+        videos.forEach(v => {
+          const li = document.createElement("li");
+          li.textContent = `${v.title} (${v.videoUrl}) ID: ${v.id}`;
+          videoList.appendChild(li);
+        });
+      } catch (err) {
+        result.textContent = "Error: " + err.message;
+      }
+    }
+
+    async function deleteVideo() {
+      const id = deleteId.value;
+      try {
+        const res = await fetch(`${videoApi}/${id}`, { method: "DELETE" });
+        if (!res.ok) {
+          throw new Error("Server error " + res.status);
+        }
+        result.textContent = await res.text();
+      } catch (err) {
+        result.textContent = "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
